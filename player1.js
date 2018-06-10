@@ -13,7 +13,7 @@ function SpawnPlayer() {
     player1.position.y = constrain(player1.position.y, 20, height - 20)
     player1.position.x = constrain(player1.position.x, 20, width - 20)
     player1.mass = 500;
-    player.add(player1);
+    player1.addToGroup(player1)
     return player;
 }
 
@@ -36,8 +36,10 @@ function PlayerUpdate() {
     zeds.bounce(bullets, BulletHit)
     smgbullets.bounce(zeds, SmgHit)
     zeds.bounce(magnumbullets, MagnumHit)
+    arbullets.bounce(zeds, ArHit)
     player1.collide(smgs, SmgPickup)
     player1.collide(magnums, MagnumPickup)
+    player1.collide(ars, ArPickup)
     player1.collide(meds, MedPickup)
     player1.collide(speedboosts, SpeedBoostPickup)
    // player1.overlap(guns, GunSwitch)
@@ -70,6 +72,34 @@ function mouseClicked() {
 
 
 //
+//Handle the HealthBar
+function Hud() {
+    fill(200, 200, 255);
+    stroke(10)
+    switch (currentgun) {
+        case 1:
+            push();
+            scale(.75);
+            image(smgImg, 20, 85);
+            pop();
+            break;
+        case 0:
+            break;
+        case 3:
+            push();
+            scale(.5);
+            image(magnumImg, 20, 130);
+            pop();
+            break;
+        case 1:
+            push();
+            scale(.75);
+            image(arImg, 20, 85);
+            pop();
+            break;
+        default:
+    }
+}
 function HandleHealthbar() {
     if (playerHealth > 0) {
         if (contact === true) {
@@ -92,3 +122,5 @@ function HandleHealthbar() {
     }
 
 }
+
+

@@ -3,17 +3,17 @@ var zeds = [];
 
 function SpawnZed() {
   //   Border zones
-  
- // function CreateSprite(){
-  var top = {x: random(-100, 1100),y: random(-100, 0) }
-  var left = { x: random(-100, 0), y: random(-100, 700) }
-  var right = {x: random(1000, 1100),y: random(-100, 700) }
-  var bottom = {x: random(-100, 1100),y: random(600, 700) }
-  
-  var spots = [top,bottom,left,right]
- 
- //  return random(spawn)
- // }
+
+  // function CreateSprite(){
+  var top = { x: random(-100, width + 100), y: random(-100, 0) }
+  var left = { x: random(-100, 0), y: random(-100, height + 100) }
+  var right = { x: random(width, width + 100), y: random(-100, height + 100) }
+  var bottom = { x: random(-100, width + 100), y: random(height, height + 100) }
+
+  var spots = [top, bottom, left, right]
+
+  //  return random(spawn)
+  // }
   var zed = createSprite(random(spots).x, random(spots).y)
   var zombieImg = loadImage("img/zombie2.png");
 
@@ -56,9 +56,18 @@ function BulletHit(zed, bullet) {
     zed.remove();
   }
 }
+//Zombie is hit by a Magnum
 function MagnumHit(zed, magnumbullet) {
   zed.health -= 80
   magnumbullet.remove();
+  if (zed.health < 1) {
+    zed.remove();
+  }
+}
+//Zombie is hit by an Assault Rifle
+function ArHit(arbullet, zed) {
+  zed.health -= 20
+  arbullet.remove();
   if (zed.health < 1) {
     zed.remove();
   }
@@ -69,7 +78,7 @@ function HitDetection() {
     if (player1.position.x - zeds[i].position.x <= 55 && player1.position.y - zeds[i].position.y <= 55 && player1.position.x - zeds[i].position.x >= -55 && player1.position.y - zeds[i].position.y >= -55) {
       player1.maxSpeed = 0.1
       playerHealth -= .07;
-      zeds[i].maxSpeed = 0;
+      zeds[i].maxSpeed = 0.1;
       contact = true;
     } else {
       player1.maxSpeed = player1.currentSpeed;
