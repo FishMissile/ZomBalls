@@ -9,6 +9,7 @@ var magnumspawnloop;
 var medloop;
 var magnumspawnloop;
 var speedboostloop;
+var arspawnloop;
 var phase;
 
 //Trigger Game Over scene
