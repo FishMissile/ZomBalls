@@ -13,7 +13,7 @@ function SpawnPlayer() {
     player1.position.x = constrain(player1.position.x, 20, width - 20)
     player1.mass = 500;
     player1.addToGroup(player1)
-    return player;
+
 }
 
 function PlayerUpdate() {

@@ -68,7 +68,7 @@ function SpawnZed() {
   zed.mass = 1;
 
   zed.addToGroup(zeds);
-  return zed;
+
 }
 
 //Zombie moves towards the player

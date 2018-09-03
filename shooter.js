@@ -51,7 +51,7 @@ function PistolFire() {
   function CoolIt() {
     pistolcooldown = 1;
   }
-  return bullet;
+
 }
 
 //Fires the SMG
@@ -84,7 +84,7 @@ function SmgFire() {
   function CoolIt() {
     smgcooldown = 1;
   }
-  return smgbullet;
+
 }
 
 //Fires the Magnum
@@ -116,7 +116,7 @@ function MagnumFire() {
   function CoolIt() {
     magnumcooldown = 1;
   }
-  return magnumbullet;
+
 }
 
 function ArFire() {
@@ -147,7 +147,7 @@ function ArFire() {
   function CoolIt() {
     arcooldown = 1;
   }
-  return arbullet;
+  
 }
 //Player walks on an SMG
 function SmgPickup(player1, smg) {
@@ -210,7 +210,7 @@ function ArLoop() {
 
 //Spawns random SMGs
 function MagnumSpawner() {
-  var magnum = createSprite(random(100, 800), random(100, 500));
+  var magnum = createSprite(random(100, width - 100), random(100, height - 100));
   var magnumImg = loadImage("img/magnum.png");
   magnum.addImage(magnumImg);
   magnum.scale = 0.65
@@ -223,11 +223,11 @@ function MagnumSpawner() {
     magnums.removeSprites();
     clearInterval(magnumdespawn)
   }
-  return magnum;
+
 }
 //Spawns random Magnums
 function GunSpawner() {
-  var smg = createSprite(random(100, 800), random(100, 500));
+  var smg = createSprite(random(100, width - 100), random(100, height - 100));
   var smgImg = loadImage("img/smg.png");
   smg.addImage(smgImg);
   smg.debug = false;
@@ -239,11 +239,11 @@ function GunSpawner() {
     smgs.removeSprites();
     clearInterval(smgdespawn)
   }
-  return smg;
+
 }
 //Spawns random Assault Rifles
 function ArSpawner() {
-  var ar = createSprite(random(100, 800), random(100, 500));
+  var ar = createSprite(random(100, width - 100), random(100, height - 100));
   var arImg = loadImage("img/ar.png");
   ar.addImage(arImg);
   ar.scale = 0.65
@@ -256,7 +256,7 @@ function ArSpawner() {
     ars.removeSprites();
     clearInterval(ardespawn)
   }
-  return ar;
+
 }
 //Check to see wich weapon is active before firing
 
