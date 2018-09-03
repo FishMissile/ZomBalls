@@ -1,6 +1,5 @@
 var player1;
 
-
 function SpawnPlayer() {
     player1 = createSprite(width /2, height /2 - 100);
     var zombieImg = loadImage("img/zombie2.png");
@@ -17,19 +16,19 @@ function SpawnPlayer() {
     return player;
 }
 
-
 function PlayerUpdate() {
     //rotate player to mouse
+
     player1.rotation = atan2(pmouseY - player1.position.y, pmouseX - player1.position.x) * 180 / Math.PI;;
     //block players walls of canvas
-    if (player1.position.x > 980)
-        player1.position.x = 980;
-    if (player1.position.y > 580)
-        player1.position.y = 580;
-    if (player1.position.x < 20)
-        player1.position.x = 20;
-    if (player1.position.y < 20)
-        player1.position.y = 20;
+    if (player1.position.x > width - 30)
+        player1.position.x = width - 30;
+    if (player1.position.y > height - 30)
+        player1.position.y = height - 30;
+    if (player1.position.x < 30)
+        player1.position.x = 30;
+    if (player1.position.y < 30)
+        player1.position.y = 30;
 
     zeds.bounce(zeds)
     zeds.displace(player1)
@@ -45,7 +44,6 @@ function PlayerUpdate() {
    // player1.overlap(guns, GunSwitch)
 
 }
-
 //Keyboard controls for WASD
 function Controls() {
     if (keyIsDown(87)) {
@@ -63,16 +61,7 @@ function Controls() {
     }
   
 }
-/*
-function mouseClicked() {
-    PistolFire();
-    Shoot();
-
-}*/
-
-
-//
-//Handle the HealthBar
+//Handle the HealthBar and Hud
 function Hud() {
     fill(200, 200, 255);
     stroke(10)
@@ -91,10 +80,10 @@ function Hud() {
             image(magnumImg, 20, 130);
             pop();
             break;
-        case 1:
+        case 4:
             push();
-            scale(.75);
-            image(arImg, 20, 85);
+            scale(.7);
+            image(arImg, 20, 130);
             pop();
             break;
         default:
@@ -104,19 +93,13 @@ function HandleHealthbar() {
     if (playerHealth > 0) {
         if (contact === true) {
             push()
-
             fill(255, 0, 0);
             text(Math.round(playerHealth), 30, 30);
-            
-            //    fill(255, 0, 0)
-            //    ellipse(player.xpos, player.ypos, 20, 20);
             pop()
         } else {
             push()
-
             fill(200, 200, 255);            
             text(Math.round(playerHealth), 30, 30);
-            //    ellipse(player.xpos, player.ypos, 20, 20);
             pop()
         }
     }

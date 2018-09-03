@@ -14,6 +14,11 @@ var magnumloop;
 var arloop;
 var ars = [];
 var arbullets = [];
+var magnumcooldown = 1;
+var pistolcooldown = 1;
+var smgcooldown = 1;
+var arcooldown = 1;
+window.addEventListener("contextmenu", function (e) { e.preventDefault(); })
 
 //Fires the pistol
 function PistolFire() {
@@ -32,10 +37,12 @@ function PistolFire() {
   bullet.addToGroup(bullets);
   removeBullet();
   function removeBullet() {
+    //remove bullet after 1 second
     setTimeout(remover, 1000)
   }
   BulletCooldown()
   function BulletCooldown() {
+    //Prevent auto-clicking
     setTimeout(CoolIt, 200)
   }
   function remover() {
@@ -63,10 +70,12 @@ function SmgFire() {
   removeBullet();
 
   function removeBullet() {
+    //Remove bullet after 2 seconds
     setTimeout(remover, 2000)
   }
   BulletCooldown()
   function BulletCooldown() {
+    //prevent auto-clicking
     setTimeout(CoolIt, 300)
   }
   function remover() {
@@ -148,7 +157,7 @@ function SmgPickup(player1, smg) {
   currentgun = 1
   smg.remove();
   smgloop = setInterval(SmgLoop, 20000);
-
+  clearInterval(arbulletinterval)
 }
 //Player walks on a Magnum
 function MagnumPickup(player1, magnum) {
@@ -158,6 +167,7 @@ function MagnumPickup(player1, magnum) {
   currentgun = 3
   magnum.remove();
   clearInterval(smgbulletinterval)
+  clearInterval(arbulletinterval)
   magnumloop = setInterval(MagnumLoop, 20000);
 }
 //Player walks on an AssaultRifle
@@ -168,6 +178,7 @@ function ArPickup(player1, ar) {
   currentgun = 4
   ar.remove();
   arloop = setInterval(ArLoop, 20000);
+  clearInterval(smgbulletinterval)
 }
 
 //SMG runs out after 20 seconds
@@ -248,11 +259,6 @@ function ArSpawner() {
   return ar;
 }
 //Check to see wich weapon is active before firing
-var magnumcooldown = 1;
-var pistolcooldown = 1;
-var smgcooldown = 1;
-var arcooldown = 1;
-window.addEventListener("contextmenu", function (e) { e.preventDefault(); })
 
 function MouseControls() {
 

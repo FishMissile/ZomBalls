@@ -80,6 +80,7 @@ function Outro() {
     function drawOutroScreen() {
         restart.show()
         background(bg)
+        translate(camera.position.x - width/2,camera.position.y - height/2)
         textSize(36);
         textStyle(BOLD);
         textAlign(CENTER);
@@ -117,6 +118,12 @@ function Outro() {
         bullets.removeSprites();
         smgbullets.removeSprites();
         magnumbullets.removeSprites();
+        arbullets.removeSprites();
+        smgs.removeSprites();
+        magnums.removeSprites();
+        ars.removeSprites();
+        meds.removeSprites();
+        speedboosts.removeSprites();
         mgr.showScene(Game)
     };
 }

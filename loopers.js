@@ -15,6 +15,7 @@ var phase;
 //Trigger Game Over scene
 function GameOver() {
     if (playerHealth < 1) {
+        phase = 0;
         clearInterval(interval)
         clearInterval(interval2)
         clearInterval(interval3)
