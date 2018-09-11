@@ -48,7 +48,7 @@ function Looper() {
         //end phase 1
         clearInterval(interval)
         //begin phase 2
-        interval2 = setInterval(Looper2, 2300);
+        interval2 = setInterval(Looper2, 2500);
         phase = 2;
     }
     SpawnZed()
@@ -60,7 +60,7 @@ function Looper2() {
         //end phase 2
         clearInterval(interval2)
         //begin phase 3
-        interval3 = setInterval(Looper3, 1950);
+        interval3 = setInterval(Looper3, 1200);
         magnumspawnloop = setInterval(MagnumSpawner, random(27000, 35000));
         phase = 3;
     }
@@ -148,7 +148,7 @@ window.onblur = function () {
 }
 window.onfocus = function () {
     if (phase == 1) {
-        interval = setInterval(Looper, 2500);
+        interval = setInterval(Looper, 2900);
     }
     if (phase == 2) {
         interval2 = setInterval(Looper2, 2300);

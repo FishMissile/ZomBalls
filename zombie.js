@@ -1,13 +1,9 @@
-//Spawns a random zombie
 var zeds = [];
-var spots1;
-var topspots;
-var sidespots;
 
+//Spawns a random zombie
 function SpawnZed() {
   //   Border zones
-  var firstcoord;
-  var secondcoord;
+
   // function CreateSprite(){
   var returnTop = {
     location: "top",
@@ -30,30 +26,26 @@ function SpawnZed() {
     y: Math.floor(random(height, height + 100))
   };
 
-  spots1 = [returnTop, returnBottom, returnLeft, returnRight];
-  topspots = [returnTop, returnBottom];
-  sidespots = [returnLeft, returnRight];
+  var spots1 = [returnTop, returnBottom, returnLeft, returnRight];
+  var topspots = [returnTop, returnBottom];
+  var sidespots = [returnLeft, returnRight];
 
-  function returnCoords() {
+  get_random = function(list) {
+    return list[Math.floor(Math.random() * list.length)]; //get a random item from an array
+  };
 
-    get_random = function(list) {
-      return list[Math.floor(Math.random() * list.length)];//get a random item from an array
-    };
-    firstcoord = get_random(spots1); //get a random object from the spots array
-    secondcoord;
-    
-    if (firstcoord.location === "top") {
-      secondcoord = get_random(topspots);
-    } else if (firstcoord.location === "left") {
-      secondcoord = get_random(sidespots);
-    } else if (firstcoord.location === "right") {
-      secondcoord = get_random(sidespots);
-    } else if (firstcoord.location === "bottom") {
-      secondcoord = get_random(topspots);
-    }
+  firstcoord = get_random(spots1); //get a random object from the spots array
 
+  if (firstcoord.location === "top") {
+    secondcoord = get_random(topspots);
+  } else if (firstcoord.location === "left") {
+    secondcoord = get_random(sidespots);
+  } else if (firstcoord.location === "right") {
+    secondcoord = get_random(sidespots);
+  } else if (firstcoord.location === "bottom") {
+    secondcoord = get_random(topspots);
   }
-  returnCoords();
+
   var zed = createSprite(firstcoord.x, secondcoord.y);
 
   var zombieImg = loadImage("img/zombie2.png");
@@ -68,7 +60,6 @@ function SpawnZed() {
   zed.mass = 1;
 
   zed.addToGroup(zeds);
-
 }
 
 //Zombie moves towards the player
@@ -85,53 +76,46 @@ function Attack() {
 
 //Zombie is hit by an SMG
 function SmgHit(smgbullet, zed) {
-  zed.health -= 20;
+  impactsounds[Math.floor(random(1, 5))].play();
+  zed.health -= smgbullet.damage;
+  player1.maxSpeed = player1.currentSpeed; // free player movement as soon as zed dies
   smgbullet.remove();
   if (zed.health < 1) {
+    zombiedeaths[Math.floor(random(1, 5))].play();
     zed.remove();
   }
 }
 //Zombie is hit by a pistol
 function BulletHit(zed, bullet) {
-  zed.health -= 20;
+  impactsounds[Math.floor(random(1, 5))].play();
+  zed.health -= bullet.damage;
+  player1.maxSpeed = player1.currentSpeed;
   bullet.remove();
   if (zed.health < 1) {
+    zombiedeaths[Math.floor(random(1, 5))].play();
     zed.remove();
   }
 }
 //Zombie is hit by a Magnum
 function MagnumHit(zed, magnumbullet) {
-  zed.health -= 80;
+  impactsounds[Math.floor(random(1, 5))].play();
+  zed.health -= magnumbullet.damage;
+  player1.maxSpeed = player1.currentSpeed;
   magnumbullet.remove();
   if (zed.health < 1) {
+    zombiedeaths[Math.floor(random(1, 5))].play();
     zed.remove();
   }
 }
+
 //Zombie is hit by an Assault Rifle
 function ArHit(arbullet, zed) {
-  zed.health -= 20;
+  impactsounds[Math.floor(random(1, 5))].play();
+  zed.health -= arbullet.damage;
+  player1.maxSpeed = player1.currentSpeed;
   arbullet.remove();
   if (zed.health < 1) {
+    zombiedeaths[Math.floor(random(1, 5))].play();
     zed.remove();
-  }
-}
-//zombie contacts a player
-function HitDetection() {
-  for (i = 0; i < zeds.length; i++) {
-    if (
-      player1.position.x - zeds[i].position.x <= 55 &&
-      player1.position.y - zeds[i].position.y <= 55 &&
-      player1.position.x - zeds[i].position.x >= -55 &&
-      player1.position.y - zeds[i].position.y >= -55
-    ) {
-      player1.maxSpeed = 0.1;
-      playerHealth -= 0.07;
-      zeds[i].maxSpeed = 0.1;
-      contact = true;
-    } else {
-      player1.maxSpeed = player1.currentSpeed;
-      zeds[i].maxSpeed = zeds[i].normalSpeed;
-      contact = false;
-    }
   }
 }
