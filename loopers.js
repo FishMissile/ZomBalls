@@ -10,6 +10,7 @@ var medloop;
 var magnumspawnloop;
 var speedboostloop;
 var arspawnloop;
+var grenadeloop
 var phase;
 
 //Trigger Game Over scene
@@ -37,6 +38,7 @@ function BeginLoop() {
     interval = setInterval(Looper, 2500);
     //Begin spawning SMGs
     gunloop = setInterval(GunSpawner, random(23000, 33000))
+    grenadeloop = setInterval(GrenadeSpawner, random(23000, 33000))
     phase = 1;
 }
 

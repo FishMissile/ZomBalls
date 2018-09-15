@@ -28,6 +28,7 @@ function preload() {
   pistolfire = loadSound("audio/pistolfire.mp3");
   arfire = loadSound("audio/arfire.mp3");
   magnumfire = loadSound("audio/magnumfire.mp3");
+  grenadesound = loadSound("audio/grenade.mp3");
   impactsounds = [
     impactsound1,
     impactsound2,
@@ -84,10 +85,13 @@ function Game() {
     smgbullets = new Group();
     magnumbullets = new Group();
     arbullets = new Group();
+    frags = new Group();
+    grenades = new Group();
+    grenadeitems = new Group();
     SpawnPlayer();
     SpawnZed();
     BeginLoop();
-    currentgun = 0;
+    currentgun = 0; //Sets starting gun to pistol
     music.play();
   };
 
@@ -105,11 +109,12 @@ function Game() {
 function StaticRender() {
   background(bg);
   fill(75, 10, 10);
-  rect(7, 8, 107, 27);
+  rect(7, 8, 107, 27); //Healthbar background
   fill(150, 10, 10);
-  rect(11, 11, playerHealth, 22);
+  rect(11, 11, playerHealth, 22); //Healthbar
   textSize(20);
   textStyle(BOLD);
+  //Display score and current phase
   text("Score: ", 50, 60);
   text(counter, 98, 61);
   text("phase: ", width / 2 - 38, 31);
@@ -118,6 +123,7 @@ function StaticRender() {
 
 function FixedUpdate() {
   Shadow();
+  //Draw small shadows under player and zeds
   function Shadow() {
     noStroke();
     fill(0, 0, 0, 40);

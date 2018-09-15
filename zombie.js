@@ -119,3 +119,13 @@ function ArHit(arbullet, zed) {
     zed.remove();
   }
 }
+
+function FragHit(shrap, zed){
+  impactsounds[Math.floor(random(1, 5))].play();
+  zed.health -= shrap.damage;
+  shrap.remove();
+  if (zed.health < 1) {
+    zombiedeaths[Math.floor(random(1, 5))].play();
+    zed.remove();
+  }
+}

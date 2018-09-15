@@ -14,20 +14,18 @@ var arloop;
 var ars = [];
 var arbullets = [];
 var cooldown = 1;
+var fragcount = 20;
+var frags = [];
+var shrap;
+var grenades = [];
+var nadecooldown = 1
 
 window.addEventListener("contextmenu", function(e) {
   e.preventDefault();
 });
 
-var BulletRemover = thisbullet => {
-  thisbullet.remove();
-};
 
-function CoolIt() {
-  cooldown = 1;
-}
 //Fires the pistol
-
 function PistolFire() {
   var bullet = createSprite(player1.position.x, player1.position.y);
 
@@ -36,7 +34,6 @@ function PistolFire() {
     rotate(atan2(pmouseY - player1.position.y, pmouseX - player1.position.x));
     rect(0, 0, 5, 2);
   };
-  bulletID = bullets.length + 1;
   bullet.setSpeed(10, player1.rotation - random(3, -3));
   bullet.debug = false;
   bullet.setCollider("rectangle", 0, 0, 5, 5);
@@ -45,8 +42,8 @@ function PistolFire() {
   pistolfire.play();
   bullet.addToGroup(bullets);
   //remove bullet after 1 second
-  setTimeout(BulletRemover, 1000, bullet); //remove bullet after 1 second
-  setTimeout(CoolIt, 200); //Prevent auto-clicking
+  setTimeout(Remover, 1000, bullet); //remove bullet after 1 second
+  setTimeout(CoolIt, 200); //Cooldown after firing
 }
 
 //Fires the SMG
@@ -65,7 +62,7 @@ function SmgFire() {
   smgfire.play();
   smgbullet.addToGroup(smgbullets);
 
-  setTimeout(BulletRemover, 1000, smgbullet);
+  setTimeout(Remover, 1000, smgbullet);
   setTimeout(CoolIt, 300);
 }
 
@@ -85,8 +82,8 @@ function MagnumFire() {
   magnumfire.play();
   magnumbullet.addToGroup(magnumbullets);
 
-  setTimeout(BulletRemover, 1000, magnumbullet);
-  
+  setTimeout(Remover, 1000, magnumbullet);
+
   setTimeout(CoolIt, 500);
 }
 
@@ -106,8 +103,57 @@ function ArFire() {
   arfire.play();
   arbullet.addToGroup(arbullets);
 
-  setTimeout(BulletRemover, 1000, arbullet);
+  setTimeout(Remover, 1000, arbullet);
   setTimeout(CoolIt, 300);
+}
+
+function GrenadeFire() {
+  var grenade = createSprite(player1.position.x, player1.position.y);
+
+  grenade.draw = function() {
+    fill(32, 193, 32);
+    stroke(1);
+    rotate(atan2(pmouseY - player1.position.y, pmouseX - player1.position.x));
+    ellipse(0, 0, 8, 8);
+  };
+  grenade.setSpeed(2, player1.rotation - random(2, -2));
+  grenade.debug = false;
+  grenade.setCollider("rectangle", 0, 0, 8, 8);
+  grenade.addToGroup(grenades);
+  grenade.mass = 2;
+  player1.nadecount -= 1
+  setTimeout(() => {
+    Shrapnel(grenade);
+
+    grenade.remove();
+  }, 700);
+
+  //remove grenade after 1 second
+
+  setTimeout(()=>{
+    nadecooldown = 1
+  }, 1000); //Cooldown after throwing
+}
+function Shrapnel(grenade) {
+  for (let i = 0; i < fragcount; i++) {
+    grenadesound.setVolume(0.2)
+    grenadesound.play()
+    var shrap = createSprite(grenade.position.x, grenade.position.y);
+    shrap.setSpeed(7, random(0, 359));
+    shrap.setCollider("circle", 0, 0, 7, 7);
+    shrap.mass = 0.1;
+    shrap.damage = 50;
+    shrap.addToGroup(frags);
+    shrap.draw = () => {
+      for (let i = 0; i < frags.length; i++) {
+        fill(255, 255, 255);
+        ellipse(0, 0, 3, 3);
+      }
+    };
+  }
+  setTimeout(() => {
+    frags.removeSprites()
+  }, 250);
 }
 //Player walks on an SMG
 function SmgPickup(player1, smg) {
@@ -118,6 +164,12 @@ function SmgPickup(player1, smg) {
   smg.remove();
   smgloop = setInterval(SmgLoop, 20000);
   clearInterval(arbulletinterval);
+}
+
+function GrenadePickup(player1, grenadeitem) {
+  player1.nadecount += 3
+  grenadeitem.remove();
+
 }
 //Player walks on a Magnum
 function MagnumPickup(player1, magnum) {
@@ -166,132 +218,10 @@ function ArLoop() {
   }
 }
 
-//Spawns random SMGs
-function MagnumSpawner() {
-  var magnum = createSprite(
-    random(100, width - 100),
-    random(100, height - 100)
-  );
-  var magnumImg = loadImage("img/magnum.png");
-  magnum.addImage(magnumImg);
-  magnum.scale = 0.65;
-  magnum.debug = false;
-  magnum.setCollider("rectangle", 0, 0, 60, 40);
-  magnum.addToGroup(magnums);
+var Remover = thisbullet => {
+  thisbullet.remove();
+};
 
-  magnumdespawn = setInterval(MagnumDespawn, 15000);
-  function MagnumDespawn() {
-    magnums.removeSprites();
-    clearInterval(magnumdespawn);
-  }
-}
-//Spawns random Magnums
-function GunSpawner() {
-  var smg = createSprite(random(100, width - 100), random(100, height - 100));
-  var smgImg = loadImage("img/smg.png");
-  smg.addImage(smgImg);
-  smg.debug = false;
-  smg.setCollider("rectangle", 0, 0, 20, 20);
-  smg.addToGroup(smgs);
-
-  smgdespawn = setInterval(SmgDespawn, 15000);
-  function SmgDespawn() {
-    smgs.removeSprites();
-    clearInterval(smgdespawn);
-  }
-}
-//Spawns random Assault Rifles
-function ArSpawner() {
-  var ar = createSprite(random(100, width - 100), random(100, height - 100));
-  var arImg = loadImage("img/ar.png");
-  ar.addImage(arImg);
-  ar.scale = 0.65;
-  ar.debug = false;
-  ar.setCollider("rectangle", 0, 0, 60, 40);
-  ar.addToGroup(ars);
-
-  ardespawn = setInterval(ArDespawn, 15000);
-  function ArDespawn() {
-    ars.removeSprites();
-    clearInterval(ardespawn);
-  }
-}
-//Check to see wich weapon is active before firing
-
-function MouseControls() {
-  mouseClicked = function() {
-    switch (currentgun) {
-      case 1:
-        clearInterval(smgbulletinterval);
-        clearInterval(arbulletinterval);
-        break;
-      default:
-        clearInterval(smgbulletinterval);
-        clearInterval(arbulletinterval);
-    }
-  };
-  mousePressed = function() {
-    switch (currentgun) {
-      case 1:
-        if (mouseButton == LEFT) {
-          if (cooldown == 1) {
-            cooldown = 0;
-            SmgFire();
-          }
-          smgbulletinterval = setInterval(SmgFire, 200); //fire a bullet every 0.2 seconds if the button is held down
-        }
-        break;
-      case 0:
-        if (cooldown == 1) {
-          cooldown = 0;
-          PistolFire();
-        }
-        break;
-      case 3:
-        if (cooldown == 1) {
-          cooldown = 0;
-          MagnumFire();
-        }
-        break;
-      case 4:
-        if (mouseButton == LEFT) {
-          if (cooldown == 1) {
-            cooldown = 0;
-            ArFire();
-          }
-          arbulletinterval = setInterval(ArFire, 100); //fire a bullet every 0.1 seconds if the button is held down
-        }
-        break;
-      default:
-        clearInterval(smgbulletinterval);
-        clearInterval(arbulletinterval);
-    }
-  };
-
-  mouseReleased = function() {
-    switch (currentgun) {
-      case 1:
-        clearInterval(smgbulletinterval);
-        break;
-      case 4:
-        clearInterval(arbulletinterval);
-        break;
-      default:
-        clearInterval(smgbulletinterval);
-    }
-    //Clear bullet intervals to stop firing
-    mouseReleased = function() {
-      switch (currentgun) {
-        case 1:
-          clearInterval(smgbulletinterval);
-          break;
-        case 4:
-          clearInterval(arbulletinterval);
-          break;
-        default:
-          clearInterval(smgbulletinterval);
-          clearInterval(arbulletinterval);
-      }
-    };
-  };
+function CoolIt() {
+  cooldown = 1;
 }
