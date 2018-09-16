@@ -164,13 +164,18 @@ function Intro() {
     text("ZomBalls", width / 2, 200);
 
     textStyle(BOLD);
-    textSize(12);
+    textSize(20);
     textStyle("text-shadow", "4px 4px");
     text(
       "Use WASD keys to move and use Left Click to fire.",
       width / 2,
-      height / 2 - 30
+      height / 2 - 60
     );
+    text(
+        "Use SPACE BAR to throw grenades.",
+        width / 2,
+        height / 2 - 30
+      );
     text("How long can you survive the ZomBalls?", width / 2, height / 2 + 50);
   }
 }
