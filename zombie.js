@@ -1,5 +1,3 @@
-var zeds = [];
-
 //Spawns a random zombie
 function SpawnZed() {
   //   Border zones

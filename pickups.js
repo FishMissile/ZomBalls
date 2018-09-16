@@ -1,5 +1,3 @@
-var med;
-var meds = [];
 function MedSpawner() {
     var med = createSprite(random(100, width - 100), random(100, height - 100));
     var medImg = loadImage("img/med.png");
@@ -20,9 +18,6 @@ function MedPickup(player1, med) {
     med.remove();
     playerHealth += 10
 }
-
-var speedboost;
-var speedboosts = [];
 
 function SpeedBoostSpawner() {
     var speedboost = createSprite(random(100, width - 100), random(100, height - 100));

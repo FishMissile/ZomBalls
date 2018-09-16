@@ -1,5 +1,3 @@
-var smg;
-var smgbullet;
 var smgbulletinterval;
 var arbulletinterval;
 var smgloop;
@@ -7,21 +5,23 @@ var magnumloop;
 var arloop;
 var cooldown = 1;
 var fragcount = 20;
-var shrap;
 var nadecooldown = 1
 
 window.addEventListener("contextmenu", function(e) {
   e.preventDefault();
 });
 
-
+function GetPlayerDirection(){
+  var direction = atan2(pmouseY - player1.position.y, pmouseX - player1.position.x)
+  return direction
+}
 //Fires the pistol
 function PistolFire() {
   var bullet = createSprite(player1.position.x, player1.position.y);
-
+  bullet.direction = GetPlayerDirection()
   bullet.draw = function() {
     fill(255, 255, 255);
-    rotate(atan2(pmouseY - player1.position.y, pmouseX - player1.position.x));
+    rotate(bullet.direction);
     rect(0, 0, 5, 2);
   };
   bullet.setSpeed(10, player1.rotation - random(3, -3));
@@ -59,9 +59,10 @@ function SmgFire() {
 //Fires the Magnum
 function MagnumFire() {
   var magnumbullet = createSprite(player1.position.x, player1.position.y);
+  magnumbullet.direction = GetPlayerDirection()
   magnumbullet.draw = function() {
     fill(255, 255, 255);
-    rotate(atan2(pmouseY - player1.position.y, pmouseX - player1.position.x));
+    rotate(magnumbullet.direction);
     rect(0, 0, 9, 6);
   };
   magnumbullet.setSpeed(10, player1.rotation - random(10, -10));
@@ -79,9 +80,10 @@ function MagnumFire() {
 
 function ArFire() {
   var arbullet = createSprite(player1.position.x, player1.position.y);
+  arbullet.direction = GetPlayerDirection()
   arbullet.draw = function() {
     fill(255, 255, 255);
-    rotate(atan2(pmouseY - player1.position.y, pmouseX - player1.position.x));
+    rotate(arbullet.direction);
     rect(0, 0, 5, 2);
   };
 
@@ -101,14 +103,14 @@ function GrenadeFire() {
   var grenade = createSprite(player1.position.x, player1.position.y);
 
   grenade.draw = function() {
-    fill(32, 193, 32);
+    fill(20, 120, 20);
     stroke(1);
     rotate(atan2(pmouseY - player1.position.y, pmouseX - player1.position.x));
-    ellipse(0, 0, 8, 8);
+    ellipse(0, 0, 10, 10);
   };
   grenade.setSpeed(2, player1.rotation - random(2, -2));
   grenade.debug = false;
-  grenade.setCollider("rectangle", 0, 0, 8, 8);
+  grenade.setCollider("rectangle", 0, 0, 10, 10);
   grenade.addToGroup(grenades);
   grenade.mass = 2;
   player1.nadecount -= 1
@@ -130,7 +132,7 @@ function Shrapnel(grenade) {
     grenadesound.play()
     var shrap = createSprite(grenade.position.x, grenade.position.y);
     shrap.setSpeed(7, random(0, 359));
-    shrap.setCollider("circle", 0, 0, 7, 7);
+    shrap.setCollider("circle", 0, 0, 7);
     shrap.mass = 0.1;
     shrap.damage = 50;
     shrap.addToGroup(frags);
@@ -158,8 +160,8 @@ function SmgPickup(player1, smg) {
 
 function GrenadePickup(player1, grenadeitem) {
   player1.nadecount += 3
+  player1.nadecount = constrain(player1.nadecount, 0, 6);
   grenadeitem.remove();
-
 }
 //Player walks on a Magnum
 function MagnumPickup(player1, magnum) {

@@ -1,4 +1,4 @@
-var player1;
+var contact;
 
 function SpawnPlayer() {
   player1 = createSprite(width / 2, height / 2 - 100);
@@ -77,13 +77,14 @@ function Controls() {
 
 //Handle the HealthBar and Hud
 function Hud() {
+  
   fill(200, 200, 255);
   stroke(10);
   switch (currentgun) {
     case 1:
       push();
-      scale(0.75);
-      image(smgImg, 20, 85);
+      scale(0.8);
+      image(smgImg, 24, 90);
       pop();
       break;
     case 0:
@@ -97,7 +98,7 @@ function Hud() {
     case 4:
       push();
       scale(0.7);
-      image(arImg, 20, 130);
+      image(arImg, 24, 93);
       pop();
       break;
     default:
@@ -124,9 +125,9 @@ function MouseControls() {
         if (mouseButton == LEFT) {
           if (cooldown == 1) {
             cooldown = 0;
-            SmgFire();
+            SmgFire();//fire a single shot on click
           }
-          smgbulletinterval = setInterval(SmgFire, 200); //fire a bullet every 0.2 seconds if the button is held down
+          smgbulletinterval = setInterval(SmgFire, 200); //continue to fire a bullet every 0.2 seconds if the button is held down
         }
         break;
       case 0:
@@ -188,11 +189,15 @@ function HandleHealthbar() {
     if (contact === true) {
       push();
       fill(255, 0, 0);
+      textSize(20);
+      textStyle(BOLD);
       text(Math.round(playerHealth), 30, 30);
       pop();
     } else {
       push();
       fill(200, 200, 255);
+      textSize(20);
+      textStyle(BOLD);
       text(Math.round(playerHealth), 30, 30);
       pop();
     }

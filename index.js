@@ -1,15 +1,11 @@
 var counter = 0;
 var playerHealth = 100;
-var contact;
-var pistolequip;
-var smgequip;
 var mgr;
-var startbutton;
-var restart;
 var impactsounds;
 var zombiedeaths;
 var musictoggle = 1;
 var sfxtoggle = 1;
+var imgpos = 20;
 
 function preload() {
   soundFormats("mp3", "ogg");
@@ -58,6 +54,7 @@ function setup() {
   medImg = loadImage("img/med.png");
   arImg = loadImage("img/ar.png");
   magnumImg = loadImage("img/magnum.png");
+  grenadeimg = loadImage("img/grenade.png");
   useQuadTree(true);
   mgr = new SceneManager();
   mgr.wire();
@@ -108,17 +105,33 @@ function Game() {
 
 function StaticRender() {
   background(bg);
+  push();
   fill(75, 10, 10);
   rect(7, 8, 107, 27); //Healthbar background
   fill(150, 10, 10);
   rect(11, 11, playerHealth, 22); //Healthbar
   textSize(20);
   textStyle(BOLD);
+  fill(0, 0, 0)
   //Display score and current phase
+  rect(13, 42, 110, 22)
+  rect(width / 2 - 80, 13, 90, 24)
+  fill(200, 10, 10)
   text("Score: ", 50, 60);
-  text(counter, 98, 61);
+  text(counter, 105, 61);
   text("phase: ", width / 2 - 38, 31);
   text(phase, width / 2, 31);
+  pop();
+
+  var initpos = 250;
+  for (let i = 0; i < player1.nadecount; i++) {
+    push();
+    scale(0.08);
+    image(grenadeimg, initpos, 1200);
+    pop();
+    initpos += 150;
+  }
+
 }
 
 function FixedUpdate() {
