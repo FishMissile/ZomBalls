@@ -1,23 +1,13 @@
-var bullets = [];
 var smg;
-var smgs = [];
-var smgbullets = [];
 var smgbullet;
-var guns = [];
-var magnums = [];
-var magnumbullets = [];
 var smgbulletinterval;
 var arbulletinterval;
 var smgloop;
 var magnumloop;
 var arloop;
-var ars = [];
-var arbullets = [];
 var cooldown = 1;
 var fragcount = 20;
-var frags = [];
 var shrap;
-var grenades = [];
 var nadecooldown = 1
 
 window.addEventListener("contextmenu", function(e) {
