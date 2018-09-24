@@ -51,15 +51,75 @@ function SpawnZed() {
   zed.addImage(zombieImg);
   zed.debug = false;
   zed.setCollider("circle", 0, 0, 20);
-  zed.maxSpeed = random(0.5, 2.3);
+  zed.maxSpeed = random(0.5, 2.5);
   zed.normalSpeed = zed.maxSpeed;
-  zed.health = random(80, 150);
+  zed.health = random(70, 130);
   zed.immovable = false;
   zed.mass = 1;
 
   zed.addToGroup(zeds);
 }
 
+function SpawnBigZed() {
+  //   Border zones
+
+  // function CreateSprite(){
+  var returnTop = {
+    location: "top",
+    x: Math.floor(random(-100, width + 100)),
+    y: Math.floor(random(-100, 0))
+  };
+  var returnLeft = {
+    location: "left",
+    x: Math.floor(random(-100, 0)),
+    y: Math.floor(random(-100, height + 100))
+  };
+  var returnRight = {
+    location: "right",
+    x: Math.floor(random(width, width + 100)),
+    y: Math.floor(random(-100, height + 100))
+  };
+  var returnBottom = {
+    location: "bottom",
+    x: Math.floor(random(-100, width + 100)),
+    y: Math.floor(random(height, height + 100))
+  };
+
+  var spots1 = [returnTop, returnBottom, returnLeft, returnRight];
+  var topspots = [returnTop, returnBottom];
+  var sidespots = [returnLeft, returnRight];
+
+  get_random = function(list) {
+    return list[Math.floor(Math.random() * list.length)]; //get a random item from an array
+  };
+
+  firstcoord = get_random(spots1); //get a random object from the spots array
+
+  if (firstcoord.location === "top") {
+    secondcoord = get_random(topspots);
+  } else if (firstcoord.location === "left") {
+    secondcoord = get_random(sidespots);
+  } else if (firstcoord.location === "right") {
+    secondcoord = get_random(sidespots);
+  } else if (firstcoord.location === "bottom") {
+    secondcoord = get_random(topspots);
+  }
+
+  var bigzed = createSprite(firstcoord.x, secondcoord.y);
+
+  var bigzombieImg = loadImage("img/zombie.png");
+
+  bigzed.addImage(bigzombieImg);
+  bigzed.debug = false;
+  bigzed.setCollider("circle", 0, 0, 23);
+  bigzed.maxSpeed = random(1, 2.6);
+  bigzed.normalSpeed = bigzed.maxSpeed;
+  bigzed.health = random(220, 290);
+  bigzed.immovable = false;
+  bigzed.mass = 1;
+
+  bigzed.addToGroup(zeds);
+}
 //Zombie moves towards the player
 function Attack() {
   for (i = 0; i < zeds.length; i++) {

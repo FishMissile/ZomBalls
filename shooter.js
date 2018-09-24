@@ -69,7 +69,7 @@ function MagnumFire() {
   magnumbullet.debug = false;
   magnumbullet.setCollider("rectangle", 0, 0, 10, 10);
   magnumbullet.mass = 7;
-  magnumbullet.damage = 80;
+  magnumbullet.damage = 60;
   magnumfire.play();
   magnumbullet.addToGroup(magnumbullets);
 
@@ -91,7 +91,7 @@ function ArFire() {
   arbullet.debug = false;
   arbullet.setCollider("rectangle", 0, 0, 5, 5);
   arbullet.mass = 0.1;
-  arbullet.damage = 20;
+  arbullet.damage = 19;
   arfire.play();
   arbullet.addToGroup(arbullets);
 

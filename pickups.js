@@ -38,7 +38,7 @@ function SpeedBoostSpawner() {
 function SpeedBoostPickup(player1, speedboost) {
     speedboost.remove();
     player1.currentSpeed += 5;
-    resetspeedboost = setInterval(ClearBoost, 9000)
+    resetspeedboost = setInterval(ClearBoost, 12000)
     function ClearBoost() {
         player1.currentSpeed -= 5;
         clearInterval(resetspeedboost)
@@ -58,11 +58,8 @@ function MagnumSpawner() {
     magnum.setCollider("rectangle", 0, 0, 60, 40);
     magnum.addToGroup(magnums);
   
-    magnumdespawn = setInterval(Remover, 15000, magnum);
-    function MagnumDespawn() {
-      magnums.removeSprites();
-      clearInterval(magnumdespawn);
-    }
+    magnumdespawn = setTimeout(Remover, 15000, magnum);
+
   }
   //Spawns random Magnums
   function GunSpawner() {
@@ -73,11 +70,8 @@ function MagnumSpawner() {
     smg.setCollider("rectangle", 0, 0, 20, 20);
     smg.addToGroup(smgs);
   
-    smgdespawn = setInterval(Remover, 15000, smg);
-    function SmgDespawn() {
-      smgs.removeSprites();
-      clearInterval(smgdespawn);
-    }
+    smgdespawn = setTimeout(Remover, 15000, smg);
+
   }
   //Spawns random Assault Rifles
   function ArSpawner() {
@@ -89,11 +83,8 @@ function MagnumSpawner() {
     ar.setCollider("rectangle", 0, 0, 60, 40);
     ar.addToGroup(ars);
   
-    ardespawn = setInterval(Remover, 15000, ar);
-    function ArDespawn() {
-      ars.removeSprites();
-      clearInterval(ardespawn);
-    }
+    ardespawn = setTimeout(Remover, 15000, ar);
+
   }
   
   function GrenadeSpawner() {

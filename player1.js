@@ -16,6 +16,8 @@ function SpawnPlayer() {
   player1.addToGroup(player1);
 }
 
+
+
 function PlayerUpdate() {
   //rotate player to mouse
 
@@ -48,6 +50,10 @@ function PlayerUpdate() {
 
 //Keyboard controls for WASD
 function Controls() {
+  if (keyIsDown(80)) {
+    // P pause
+  }
+
   if (keyIsDown(87)) {
     //move up
     player1.addSpeed(0.6, 270);
@@ -73,11 +79,25 @@ function Controls() {
       }
     }
   }
+  /*   var pausestate = false
+
+  function keyTyped() {
+    console.log("Pause Button Pressed: " + pausestate)
+    if (key == ESCAPE) {
+      if(pausestate== false){
+        pausestate = true
+        noLoop();
+    }
+    if(pausestate == true){
+      pausestate = false
+      loop();
+    }
+    } 
+  } */
 }
 
 //Handle the HealthBar and Hud
 function Hud() {
-  
   fill(200, 200, 255);
   stroke(10);
   switch (currentgun) {
@@ -125,7 +145,7 @@ function MouseControls() {
         if (mouseButton == LEFT) {
           if (cooldown == 1) {
             cooldown = 0;
-            SmgFire();//fire a single shot on click
+            SmgFire(); //fire a single shot on click
           }
           smgbulletinterval = setInterval(SmgFire, 200); //continue to fire a bullet every 0.2 seconds if the button is held down
         }

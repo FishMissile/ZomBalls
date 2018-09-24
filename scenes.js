@@ -49,6 +49,10 @@ function Intro() {
   function drawIntroScreen() {
     background(bg);
     stroke(20);
+    push()
+    fill(0,0,0,80)
+    rect(0,0, width, height)
+    pop()
     textStyle(BOLD);
     textAlign(CENTER);
 
@@ -187,11 +191,12 @@ function Outro() {
   };
   //Setup Game Over scene
   function setupOutroScreen() {
+    clearInterval(spawninterval);
     music.stop();
     restart = createButton("Restart");
     restart.position(width / 2 - 50, height / 2);
     restart.mouseClicked(Restart);
-    restart.mousePressed(BeginLoop);
+    restart.mousePressed(MainLoop);
     restart
       .style("background-color", "green")
       .style("border-color", "black")
@@ -212,6 +217,10 @@ function Outro() {
     textStyle(BOLD);
     textAlign(CENTER);
 
+    push()
+    fill(0,0,0,80)
+    rect(0,0, width, height)
+    pop()
     restart.mouseOver(Hover);
     restart.mouseOut(HoverOut);
     function Hover() {
@@ -251,6 +260,8 @@ function Outro() {
     ars.removeSprites();
     meds.removeSprites();
     speedboosts.removeSprites();
+    grenades.removeSprites();
+    grenadeitems.removeSprites()
     mgr.showScene(Game);
   }
 }

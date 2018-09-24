@@ -6,6 +6,7 @@ var zombiedeaths;
 var musictoggle = 1;
 var sfxtoggle = 1;
 var imgpos = 20;
+var pausestate = false;
 
 function preload() {
   soundFormats("mp3", "ogg");
@@ -25,6 +26,15 @@ function preload() {
   arfire = loadSound("audio/arfire.mp3");
   magnumfire = loadSound("audio/magnumfire.mp3");
   grenadesound = loadSound("audio/grenade.mp3");
+  zombieImg = loadImage("img/zombie2.png");
+  bigzombieImg = loadImage("img/zombie.png");
+  survivorImg = loadImage("img/survivor.png");
+  smgImg = loadImage("img/smg.png");
+  medImg = loadImage("img/med.png");
+  arImg = loadImage("img/ar.png");
+  magnumImg = loadImage("img/magnum.png");
+  grenadeimg = loadImage("img/grenade.png");
+
   impactsounds = [
     impactsound1,
     impactsound2,
@@ -42,19 +52,13 @@ function preload() {
 }
 
 function setup() {
-  masterVolume(0.4);
+  masterVolume(0.2);
   bg = loadImage("img/background.png");
   createCanvas(1400, 800);
   background(bg);
-  frameRate(120);
+  frameRate(60);
   textAlign(CENTER);
-  zombieImg = loadImage("img/zombie2.png");
-  survivorImg = loadImage("img/survivor.png");
-  smgImg = loadImage("img/smg.png");
-  medImg = loadImage("img/med.png");
-  arImg = loadImage("img/ar.png");
-  magnumImg = loadImage("img/magnum.png");
-  grenadeimg = loadImage("img/grenade.png");
+
   useQuadTree(true);
   mgr = new SceneManager();
   mgr.wire();
@@ -87,7 +91,7 @@ function Game() {
     grenadeitems = new Group();
     SpawnPlayer();
     SpawnZed();
-    BeginLoop();
+    MainLoop();
     currentgun = 0; //Sets starting gun to pistol
     music.play();
   };
@@ -101,9 +105,21 @@ function Game() {
     LateUpdate();
     Render();
   };
+  this.keyPressed = function() {
+    if (keyCode === 80) {
+      if(pausestate == false){
+        
+        noLoop()
+      } else {
+        loop()
+      }
+    }
+  }
+
 }
 
 function StaticRender() {
+  GameOver();
   background(bg);
   push();
   fill(75, 10, 10);
@@ -112,11 +128,11 @@ function StaticRender() {
   rect(11, 11, playerHealth, 22); //Healthbar
   textSize(20);
   textStyle(BOLD);
-  fill(0, 0, 0)
+  fill(0, 0, 0);
   //Display score and current phase
-  rect(13, 42, 110, 22)
-  rect(width / 2 - 80, 13, 90, 24)
-  fill(200, 10, 10)
+  rect(13, 42, 110, 22);
+  rect(width / 2 - 80, 13, 90, 24);
+  fill(200, 10, 10);
   text("Score: ", 50, 60);
   text(counter, 105, 61);
   text("phase: ", width / 2 - 38, 31);
@@ -131,7 +147,6 @@ function StaticRender() {
     pop();
     initpos += 150;
   }
-
 }
 
 function FixedUpdate() {
@@ -161,6 +176,6 @@ function LateUpdate() {
 
 function Render() {
   drawSprites();
-  GameOver();
+
   Hud();
 }
